@@ -1,0 +1,1 @@
+# sd-0x-project-trivia-react-redux-tests
