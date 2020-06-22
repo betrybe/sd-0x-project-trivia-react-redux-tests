@@ -47,6 +47,7 @@ describe('O _header_ deve conter as informações da pessoa jogadora', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(HEADER_NAME_SELECTOR);
   });
 
   it('a imagem do Gravatar está presente no header', () => {
@@ -84,7 +85,6 @@ describe('A página deve conter as informações relacionadas à pergunta', () =
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('exist');
   });
 });
-
 
 describe('Só deve ser possível escolher uma resposta correta por pergunta', () => {
   beforeEach(() => {
@@ -157,6 +157,7 @@ describe('Ao clicar na resposta correta, pontos devem ser somados no placar da p
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(HEADER_SCORE_SELECTOR);
   });
 
   it('soma pontos ao acertar uma questão', () => {
@@ -183,6 +184,7 @@ describe('Após a resposta ser dada, o botão "Próxima" deve aparecer', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(QUESTION_TEXT_SELECTOR);
   });
 
   it('o botão de próxima pergunta não deve ser visível o início do jogo', () => {
@@ -207,6 +209,7 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(HEADER_SCORE_SELECTOR);
   });
 
   it('acerta todas as perguntas', () => {
