@@ -141,15 +141,21 @@ describe('5 - [TELA DE JOGO] Crie a página de jogo que deve conter as informaç
 
   it('A categoria da pergunta está presente', () => {
     cy.get(QUESTION_CATEGORY_SELECTOR).should('exist');
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('O texto da pergunta está presente', () => {
     cy.get(QUESTION_TEXT_SELECTOR).should('exist');
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('As alternativas devem estar presentes', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('exist');
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('exist');
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -241,6 +247,8 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(then.player.score).to.be.lt(now.player.score);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Não soma pontos ao errar uma questão', () => {
@@ -249,6 +257,8 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(then.player.score).to.be.eq(now.player.score);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -301,6 +311,8 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
       const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(before.player.score).to.be.lt(after.player.score);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Erra todas as perguntas', () => {
@@ -317,6 +329,8 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
       const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(before.player.score).to.be.eq(after.player.score);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Redireciona para a tela de _feedback_ após a quinta pergunta', () => {
@@ -331,6 +345,8 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(FEEDBACK_TEXT_SELECTOR).should('exist');
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -357,10 +373,14 @@ describe('12 - [TELA DE FEEDBACK] Desenvolva o header de _feedback_ que deve con
 
   it('A imagem do Gravatar está presente no header', () => {
     cy.get(HEADER_IMAGE_SELECTOR).should('exist');
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('O nome da pessoa está presente no header', () => {
     cy.get(HEADER_NAME_SELECTOR).contains(name);
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('O placar com o valor atual está presente no header', () => {
@@ -368,6 +388,8 @@ describe('12 - [TELA DE FEEDBACK] Desenvolva o header de _feedback_ que deve con
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.score);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -451,6 +473,8 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.assertions);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Acertou 2 perguntas', () => {
@@ -472,6 +496,8 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.assertions);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Acertou 4 perguntas', () => {
@@ -493,6 +519,8 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.assertions);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -572,6 +600,8 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(1);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Devem existir duas pessoas no _ranking_', () => {
@@ -596,6 +626,8 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(2);
     });
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('O _ranking_ deve ser ordenado pela pontuação', () => {
@@ -644,6 +676,9 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).each(($el, $index) => {
       expect($el.text()).to.be.eq(ranking[$index]);
     });
+
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -667,5 +702,8 @@ describe('18 - [TELA DE RANKING] Crie um botão para ir ao início', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
     cy.get(BUTTON_GO_HOME_SELECTOR).click();
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).should('exist');
+  
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
