@@ -139,23 +139,22 @@ describe('5 - [TELA DE JOGO] Crie a página de jogo que deve conter as informaç
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('A categoria da pergunta está presente', () => {
-    cy.get(QUESTION_CATEGORY_SELECTOR).should('exist');
+  afterEach(() => {
     const storage = Object.keys(localStorage).length;
     expect(storage).to.be.lessThan(4);
   });
 
+  it('A categoria da pergunta está presente', () => {
+    cy.get(QUESTION_CATEGORY_SELECTOR).should('exist');
+  });
+
   it('O texto da pergunta está presente', () => {
     cy.get(QUESTION_TEXT_SELECTOR).should('exist');
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('As alternativas devem estar presentes', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('exist');
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('exist');
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -241,14 +240,17 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
     cy.get(HEADER_SCORE_SELECTOR);
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('Soma pontos ao acertar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(then.player.score).to.be.lt(now.player.score);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('Não soma pontos ao errar uma questão', () => {
@@ -257,8 +259,6 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(then.player.score).to.be.eq(now.player.score);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -297,6 +297,11 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
     cy.get(HEADER_SCORE_SELECTOR);
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('Acerta todas as perguntas', () => {
     const before = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -311,8 +316,6 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
       const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(before.player.score).to.be.lt(after.player.score);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('Erra todas as perguntas', () => {
@@ -329,8 +332,6 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
       const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(before.player.score).to.be.eq(after.player.score);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('Redireciona para a tela de _feedback_ após a quinta pergunta', () => {
@@ -345,8 +346,6 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(FEEDBACK_TEXT_SELECTOR).should('exist');
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -371,16 +370,17 @@ describe('12 - [TELA DE FEEDBACK] Desenvolva o header de _feedback_ que deve con
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
   });
 
-  it('A imagem do Gravatar está presente no header', () => {
-    cy.get(HEADER_IMAGE_SELECTOR).should('exist');
+  afterEach(() => {
     const storage = Object.keys(localStorage).length;
     expect(storage).to.be.lessThan(4);
   });
 
+  it('A imagem do Gravatar está presente no header', () => {
+    cy.get(HEADER_IMAGE_SELECTOR).should('exist');
+  });
+
   it('O nome da pessoa está presente no header', () => {
     cy.get(HEADER_NAME_SELECTOR).contains(name);
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('O placar com o valor atual está presente no header', () => {
@@ -388,8 +388,6 @@ describe('12 - [TELA DE FEEDBACK] Desenvolva o header de _feedback_ que deve con
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.score);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -454,6 +452,11 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('Não acertou nenhuma pergunta', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
@@ -473,8 +476,6 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.assertions);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('Acertou 2 perguntas', () => {
@@ -496,8 +497,6 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.assertions);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('Acertou 4 perguntas', () => {
@@ -519,8 +518,6 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
       const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(parseInt($el.text())).to.be.eq(state.player.assertions);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 });
 
@@ -596,12 +593,15 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('Deve existir uma pessoa no _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(1);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('Devem existir duas pessoas no _ranking_', () => {
@@ -626,8 +626,6 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(2);
     });
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 
   it('O _ranking_ deve ser ordenado pela pontuação', () => {
@@ -676,9 +674,6 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).each(($el, $index) => {
       expect($el.text()).to.be.eq(ranking[$index]);
     });
-
-    const storage = Object.keys(localStorage).length;
-    expect(storage).to.be.lessThan(4);
   });
 });
 
