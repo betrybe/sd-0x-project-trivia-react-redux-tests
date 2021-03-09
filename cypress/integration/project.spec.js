@@ -139,6 +139,11 @@ describe('5 - [TELA DE JOGO] Crie a página de jogo que deve conter as informaç
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('A categoria da pergunta está presente', () => {
     cy.get(QUESTION_CATEGORY_SELECTOR).should('exist');
   });
@@ -235,6 +240,11 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
     cy.get(HEADER_SCORE_SELECTOR);
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('Soma pontos ao acertar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
@@ -285,6 +295,11 @@ describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga d
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
     cy.get(HEADER_SCORE_SELECTOR);
+  });
+
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Acerta todas as perguntas', () => {
@@ -353,6 +368,11 @@ describe('12 - [TELA DE FEEDBACK] Desenvolva o header de _feedback_ que deve con
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
+  });
+
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('A imagem do Gravatar está presente no header', () => {
@@ -430,6 +450,11 @@ describe('14 - [TELA DE FEEDBACK] Exiba as informações relacionadas aos result
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+  });
+
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 
   it('Não acertou nenhuma pergunta', () => {
@@ -568,6 +593,11 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
   });
 
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
   it('Deve existir uma pessoa no _ranking_', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(1);
@@ -667,5 +697,8 @@ describe('18 - [TELA DE RANKING] Crie um botão para ir ao início', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
     cy.get(BUTTON_GO_HOME_SELECTOR).click();
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).should('exist');
+  
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
   });
 });
