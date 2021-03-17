@@ -19,6 +19,7 @@ const BUTTON_RANKING_SELECTOR = '[data-testid="btn-ranking"]';
 const RANKING_PLAYERS_NAME_SELECTOR = '[data-testid*="player-name"]';
 const BUTTON_GO_HOME_SELECTOR = '[data-testid="btn-go-home"]';
 
+
 describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
