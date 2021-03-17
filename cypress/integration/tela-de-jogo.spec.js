@@ -15,29 +15,30 @@ const FEEDBACK_TEXT_SELECTOR = '[data-testid="feedback-text"]';
 const name = 'Nome da pessoa';
 const email = 'email@pessoa.com';
 
-describe('O _header_ deve conter as informações da pessoa jogadora', () => {
+describe('4 - [TELA DE JOGO] Crie um _header_ que deve conter as informações da pessoa jogadora', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(HEADER_NAME_SELECTOR);
   });
 
-  it('a imagem do Gravatar está presente no header', () => {
+  it('Será validado se a imagem do Gravatar está presente no header', () => {
     cy.get(HEADER_IMAGE_SELECTOR).should('exist');
   });
 
-  it('o nome da pessoa está presente no header', () => {
+  it('Será validado se o nome da pessoa está presente no header', () => {
     cy.get(HEADER_NAME_SELECTOR).contains(name);
   });
 
-  it('o placar zerado está presente no header', () => {
+  it('Será validado se o placar zerado está presente no header', () => {
     cy.get(HEADER_SCORE_SELECTOR).contains('0');
   });
 });
 
-describe('A página deve conter as informações relacionadas à pergunta', () => {
+describe('5 - [TELA DE JOGO] Crie a página de jogo que deve conter as informações relacionadas à pergunta', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -46,22 +47,26 @@ describe('A página deve conter as informações relacionadas à pergunta', () =
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('a categoria da pergunta está presente', () => {
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
+  it('Será validado se a categoria da pergunta está presente', () => {
     cy.get(QUESTION_CATEGORY_SELECTOR).should('exist');
   });
 
-  it('o texto da pergunta está presente', () => {
+  it('Será validado se o texto da pergunta está presente', () => {
     cy.get(QUESTION_TEXT_SELECTOR).should('exist');
   });
 
-  it('as alternativas devem estar presentes', () => {
+  it('Será validado se as alternativas estão presentes', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('exist');
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('exist');
   });
 });
 
-
-describe('Só deve ser possível escolher uma resposta correta por pergunta', () => {
+describe('6 - [TELA DE JOGO] Desenvolva o jogo onde só deve ser possível escolher uma resposta correta por pergunta', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -70,12 +75,12 @@ describe('Só deve ser possível escolher uma resposta correta por pergunta', ()
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('a quantidade de respostas corretas deve ser 1', () => {
+  it('Será validado se a quantidade de alternativas corretas é 1', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.length', 1);
   });
 });
 
-describe('Ao clicar em uma resposta, a resposta correta deve ficar verde e as incorretas, vermelhas', () => {
+describe('7 - [TELA DE JOGO] Desenvolva o estilo que, ao clicar em uma resposta, a correta deve ficar verde e as incorretas, vermelhas', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -84,28 +89,36 @@ describe('Ao clicar em uma resposta, a resposta correta deve ficar verde e as in
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('verifica cor da alternativa correta quando acerta a questão', () => {
+  it('Será validado se a cor da alternativa correta é "rgb(6, 240, 15)" ao acertar a questão', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border', '3px solid rgb(6, 240, 15)');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-color', 'rgb(6, 240, 15)');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-style', 'solid');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-width', '3px');
   });
 
-  it('verifica a cor das alternativas incorretas quando acerta a questão', () => {
+  it('Será validado se a cor das alternativas incorretas é "rgb(255, 0, 0)" ao acertar a questão', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border', '3px solid rgb(255, 0, 0)');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-color', 'rgb(255, 0, 0)');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-style', 'solid');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-width', '3px');
   });
 
-  it('verifica cor da alternativa correta quando erra a questão', () => {
+  it('Será validado se a cor da alternativa correta é "rgb(6, 240, 15)" ao errar a questão', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border', '3px solid rgb(6, 240, 15)');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-color', 'rgb(6, 240, 15)');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-style', 'solid');
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border-width', '3px');
   });
 
-  it('verifica a cor das alternativas incorretas quando erra a questão', () => {
+  it('Será validado se a cor das alternativas incorretas é "rgb(255, 0, 0)" ao errar a questão', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border', '3px solid rgb(255, 0, 0)');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-color', 'rgb(255, 0, 0)');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-style', 'solid');
+    cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border-width', '3px');
   });
 });
 
-describe('A pessoa que joga tem 30 segundos para responder cada pergunta', () => {
+describe('8 - [TELA DE JOGO] Desenvolva um timer onde a pessoa que joga tem 30 segundos para responder', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -114,27 +127,33 @@ describe('A pessoa que joga tem 30 segundos para responder cada pergunta', () =>
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('aguarda 5 segundos e responde a alternativa correta', () => {
+  it('Será validado se é possível aguardar 5 segundos e responder a alternativa correta', () => {
     cy.wait(5000);
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('not.be.disabled').click();
   });
 
-  it('aguarda mais de 30 segundos para responder', () => {
+  it('Será validado se ao aguardar mais de 30 segundos para responder, todos botões estão desabilitados', () => {
     cy.wait(32000);
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('be.disabled');
   });
 });
 
-describe('Ao clicar na resposta correta, pontos devem ser somados no placar da pessoa que está jogando', () => {
+describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(HEADER_SCORE_SELECTOR);
   });
 
-  it('soma pontos ao acertar uma questão', () => {
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
+  it('Será validado se os pontos são somados ao acertar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
@@ -142,7 +161,7 @@ describe('Ao clicar na resposta correta, pontos devem ser somados no placar da p
     });
   });
 
-  it('não soma pontos ao errar uma questão', () => {
+  it('Será validado se os pontos não são somados ao errar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
@@ -151,40 +170,47 @@ describe('Ao clicar na resposta correta, pontos devem ser somados no placar da p
   });
 });
 
-describe('Após a resposta ser dada, o botão "Próxima" deve aparecer', () => {
+describe('10 - [TELA DE JOGO] Crie um botão de \"Next\" que apareça após a resposta ser dada', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(QUESTION_TEXT_SELECTOR);
   });
 
-  it('o botão de próxima pergunta não deve ser visível o início do jogo', () => {
+  it('Será validado se o botão "Next" não é visível no início do jogo', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).should('not.be.visible');
   });
 
-  it('botão de próxima pergunta é visível quando a pergunta é respondida corretamente', () => {
+  it('Será validado se o botão "Next" é visível quando a pergunta é respondida corretamente', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).should('be.visible');
   });
 
-  it('botão de próxima pergunta é visível quando a pergunta é respondida incorretamente', () => {
+  it('Será validado se o botão "Next" é visível quando a pergunta é respondida incorretamente', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).should('be.visible');
   });
 });
 
-describe('A pessoa que joga deve responder 5 perguntas no total', () => {
+describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga deve responder 5 perguntas no total', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type(name);
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type(email);
     cy.get(BUTTON_PLAY_SELECTOR).click();
+    cy.get(HEADER_SCORE_SELECTOR);
   });
 
-  it('acerta todas as perguntas', () => {
+  afterEach(() => {
+    const storage = Object.keys(localStorage).length;
+    expect(storage).to.be.lessThan(4);
+  });
+
+  it('Será validado se os pontos são somados de forma correta ao acertar todas as respostas', () => {
     const before = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
@@ -200,7 +226,7 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     });
   });
 
-  it('erra todas as perguntas', () => {
+  it('Será validado se os pontos são somados de forma correta ao errar todas as respostas', () => {
     const before = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
@@ -216,7 +242,7 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     });
   });
 
-  it('redireciona para a tela de _ranking_ após a quinta pergunta', () => {
+  it('Será validado se a pessoa usuária é redirecionada para a tela de _feedback_ após a quinta pergunta', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
